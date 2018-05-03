@@ -4,11 +4,50 @@
 <dom-module id="morph-toggle">
   <template id="styles">
     <style>
-      :host {
-        /* display: block; */
-      }
+    :host([platform="ios"]) {
+      --primary-color: #4cd964;
+    }
+
+    :host([platform="ios"]) .toggle-container {
+      width: 52px;
+      height: 32px;
+      margin: 0;
+    }
+
+    :host([platform="ios"]) .toggle-bar {
+      box-sizing: border-box;
+      border-radius: 16px;
+      background-color: white;
+      border: 2px solid #bfbfbf;
+    }
+
+    :host([platform="ios"][checked]) .toggle-bar {
+      border: none;
+      opacity: 1;
+    }
+
+    :host([platform="ios"]) .toggle-button,
+    :host([platform="ios"][checked]) .toggle-button {
+      background-color: white;
+    }
+
+    :host([platform="ios"]) .toggle-button {
+      
+      width: 28px;
+      height: 28px;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,.3);
+    }
+
+    :host([platform="ios"]) paper-ripple {
+      display: none;
+    }
+
+    :host([platform="ios"][checked]) .toggle-button {
+      transform: translate(20px, 0);
+    }
     </style>
-    <!-- <h2>Hello [[prop1]]!</h2> -->
   </template>
 
   <script>
@@ -26,12 +65,7 @@
     class MorphToggle extends MorphElement(PaperToggleButtonSuperClass) {
       static get is() { return 'morph-toggle'; }
       static get properties() {
-        return {
-          // prop1: {
-          //   type: String,
-          //   value: 'morph-toggle'
-          // }
-        };
+        return {};
       }
 
       /**
