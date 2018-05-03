@@ -1,17 +1,20 @@
-<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../morph-element/morph-element.html">
 
 <dom-module id="morph-toggle">
-  <template>
+  <template id="styles">
     <style>
       :host {
-        display: block;
+        /* display: block; */
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <!-- <h2>Hello [[prop1]]!</h2> -->
   </template>
 
   <script>
+    let subTemplate;
+    const PaperToggleButtonSuperClass = customElements.get('paper-toggle-button');
+
     /**
      * `morph-toggle`
      * Toggle element for Polymorph Elements
@@ -20,15 +23,34 @@
      * @polymer
      * @demo demo/index.html
      */
-    class MorphToggle extends MorphElement(Polymer.Element) {
+    class MorphToggle extends MorphElement(PaperToggleButtonSuperClass) {
       static get is() { return 'morph-toggle'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'morph-toggle'
-          }
+          // prop1: {
+          //   type: String,
+          //   value: 'morph-toggle'
+          // }
         };
+      }
+
+      /**
+       * This will return our template inherited from superclass <iron-pages> with our styles inserted
+       */
+       static get template() {
+        if (!subTemplate) {
+          // first clone our superclass <paper-toggle-button> template
+          let superClass = customElements.get('paper-toggle-button');
+          subTemplate = superClass.template.cloneNode(true);
+          // here we will get the content of our <style> so we can insert them into the superclass <style>
+          // note the added id="styles" in our template tag above
+          const subStyle = Polymer.DomModule.import('morph-toggle', 'template#styles').content;
+          // get the content of current style from superClass
+          const superStyle = subTemplate.content.querySelector('style');
+          // append our added style at the bottom of the current style to get higher priority
+          superStyle.parentNode.appendChild(subStyle);
+        }
+        return subTemplate;
       }
     }
 
